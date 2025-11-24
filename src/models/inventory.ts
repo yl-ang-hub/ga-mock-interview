@@ -11,12 +11,13 @@ export interface InventoryType {
 
 export const getAllInventory = async (): Promise<InventoryType[]> => {
   const { rows } = await pool.query(
-    `SELECT * FROM inventory 
-      JOIN shoes ON inventory.shoes_id = shoes.id 
-      JOIN types ON types.type_id = shoes.type_id 
-      JOIN brands on brands.brand_id = shoes.brand_id`
+    `SELECT i.colour, i.size, i.quantity, i.created_at, i.updated_at, s.model, t.type, b.brand
+      FROM inventory AS i
+      JOIN shoes AS s ON i.shoes_id = s.id 
+      JOIN types AS t ON t.type_id = s.type_id 
+      JOIN brands AS b ON b.brand_id = s.brand_id`
   );
-
+  console.log(rows);
   return rows;
 };
 
